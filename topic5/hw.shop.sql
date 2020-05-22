@@ -124,5 +124,28 @@ select date_format(birthday_at, '%W') week_day, count(id) from users group by we
 
 
 /* (по желанию) Подсчитайте произведение чисел в столбце таблицы */
-select round(exp(sum(ln(id)))) from storehouses;
-select round(exp(sum(ln(value)))) from storehouses_products sp;
+-- не нашел функцию product в мускуле аналогично excel пришлось изголяться
+-- немного упростил себе задачу, считая что в списке для произведения только положителные числа, как в примере. Ну и null тоже быть не может.
+select exp(sum(ln(id))) product from storehouses;
+
+-- если добавить возможность нуля...
+select if(
+	(select count(1) from storehouses_products where value = 0) > 0,
+	0, 
+	(select exp(sum(ln(value))) from storehouses_products)
+) product;
+
+-- если добавить еще и отрицательные числа...
+drop table ints;
+create temporary table ints(value int not null);
+insert into ints values (-1), (-2), (3), (-4), (5);
+select * from ints;
+
+select if(t.zero > 0,
+	0,
+	if(t.odd_negative, -1, 1) * exp(t.sum_ln)) product
+from 
+(select sum(if(value = 0, 1, 0)) zero, sum(if(value < 0, 1, 0)) % 2 odd_negative, sum(ln(abs(value))) sum_ln from ints) t;
+ 
+	
+
