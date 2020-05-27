@@ -100,8 +100,7 @@ select count(*) from likes l1, likes l2
 where l1.user_id = l2.user_id
 and l1.target_id =l2.target_id 
 and l1.target_type_id = l2.target_type_id 
-and l1.id <> l2.id
-and l2.id = 1742;
+and l1.id <> l2.id;
 
 -- у меня оказалось 4048. Зачистим дубли
 
@@ -121,6 +120,6 @@ delete from likes where id in (
 	select id from bad_like_ids
 );
 
-select count(1) from likes;
+select target_type_id, count(1) from likes group by target_type_id;
 
 
