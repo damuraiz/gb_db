@@ -120,7 +120,7 @@ select avg(timestampdiff(year, birthday_at, now())) average_age from users;
 /* Подсчитайте количество дней рождения, которые приходятся на каждый из дней недели. 
  * Следует учесть, что необходимы дни недели текущего года, а не года рождения. */
 -- Формулировки конечно...
-select date_format(birthday_at, '%W') week_day, count(id) from users group by week_day ;
+select date_format(date(concat_ws('-', year(now()), month(birthday_at), day(birthday_at))), '%W') week_day, count(id) from users group by week_day ;
 
 
 /* (по желанию) Подсчитайте произведение чисел в столбце таблицы */
