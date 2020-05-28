@@ -7,11 +7,11 @@ insert into orders(user_id)
 
 -- вариант 1
 select distinct u.id, u.name 
-from users u join orders o on u.id = o.user_id;
+from users u left join orders o on u.id = o.user_id;
 
 -- вариант 2 
 select u.id, u.name 
-from users u join orders o on u.id = o.user_id
+from users u left join orders o on u.id = o.user_id
 group by u.id, u.name;
 -- брал вместе с id так как в общем случае name может совпадать.
 
