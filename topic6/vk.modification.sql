@@ -57,7 +57,7 @@ insert into likes(user_id, target_id, target_type_id)
  	select 
 		floor(1 + rand()*100),
 		floor(1 + rand()*1000),
-		
+		(select id from target_types where name = 'messages')
 	from messages;
 
 
