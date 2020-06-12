@@ -299,7 +299,7 @@ set time_zone = '+03:00' ~ -- этой командой я игрался что
 drop function if exists hello ~
 
 create function hello()
-returns text deterministic
+returns text no sql
 begin 
 	if curtime() < '06:00' then 
 		return 'Доброй ночи';
